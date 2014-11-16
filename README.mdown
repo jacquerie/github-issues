@@ -1,0 +1,19 @@
+# what-can-i-do-for #
+
+This project aims to generalize [whatcanidoformozilla.org](http://www.whatcanidoformozilla.org/) to every GitHub organization.
+
+## Install ##
+
+TODO
+
+## Usage ##
+
+TODO
+
+## Author ##
+
+Jacopo Notarstefano [(@Jaconotar)](https://twitter.com/Jaconotar)
+
+## License ##
+
+MIT
