@@ -25,14 +25,25 @@ rescue
 end
 
 repos.each do |repo|
-  full_name = repo[:full_name]
+  full_name = repo.full_name
 
   languages = client.languages(full_name)
   most_used = most_used(languages)
 
+  # Ignore pull requests.
   _, issues = client.issues(full_name).partition { |el| el.pull_request? }
 
   if (issues.count > 0)
+    now = Time.now
+
+    max_comments = [issues.map { |el| el.comments }.max, 1].max
+    max_secs_ago = issues.map { |el| now - el.created_at }.max
+
+    issues.sort_by! do |el|
+      (now - el.created_at) / (2.0 * max_secs_ago) +
+        el.comments / (2.0 * max_comments)
+    end
+
     puts "#{full_name}: (#{most_used})"
     issues.each do |issue|
       puts "\t#{issue.html_url}"
