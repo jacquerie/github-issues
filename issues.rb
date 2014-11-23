@@ -30,7 +30,7 @@ repos.each do |repo|
   languages = client.languages(full_name)
   most_used = most_used(languages)
 
-  issues = client.issues(full_name)
+  _, issues = client.issues(full_name).partition { |el| el.pull_request? }
 
   if (issues.count > 0)
     puts "#{full_name}: (#{most_used})"
