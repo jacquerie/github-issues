@@ -15,12 +15,27 @@ client.login
 # See: https://github.com/octokit/octokit.rb#auto-pagination
 client.auto_paginate = true
 
-google_repos = client.org_repos 'google'
+org_name = ARGV.shift
 
-google_repos.each do |repo|
+begin
+  repos = client.org_repos org_name
+rescue
+  puts "Usage: ruby issues.rb ORG_NAME"
+  abort
+end
+
+repos.each do |repo|
   full_name = repo[:full_name]
+
   languages = client.languages(full_name)
   most_used = most_used(languages)
 
-  puts "#{full_name}: #{most_used}"  
+  issues = client.issues(full_name)
+
+  if (issues.count > 0)
+    puts "#{full_name}: (#{most_used})"
+    issues.each do |issue|
+      puts "\t#{issue.html_url}"
+    end
+  end
 end
