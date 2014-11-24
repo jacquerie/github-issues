@@ -44,7 +44,12 @@ repos.each do |repo|
         el.comments / (2.0 * max_comments)
     end
 
-    puts "#{full_name}: (#{most_used})"
+    if (most_used.empty?)
+      puts "#{full_name}:"
+    else
+      puts "#{full_name}: (#{most_used})"
+    end
+
     issues.each do |issue|
       puts "\t#{issue.html_url}"
     end
