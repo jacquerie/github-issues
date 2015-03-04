@@ -1,0 +1,9 @@
+{
+  "repository" : {
+    "type" : "git",
+    "url" : "http://github.com/jacquerie/what-can-i-do-for.git"
+  },
+  "dependencies": {
+    "node-github": "*"
+  }
+}
