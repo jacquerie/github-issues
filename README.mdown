@@ -1,14 +1,23 @@
 # what-can-i-do-for #
 
-This project aims to generalize [whatcanidoformozilla.org](http://www.whatcanidoformozilla.org/) to every GitHub organization.
+WIP: This will eventually be included in my GSoC proposal for https://github.com/jquery/gsoc/wiki/GSoC-2015-Ideas-List#jquery-content---tracking-of-jquery-issues-on-github.
 
 ## Install ##
 
-TODO
+1. Clone this repository: `git clone https://github.com/jacquerie/what-can-i-do-for.git`
+2. Install the dependencies: `cd what-can-i-do-for && npm install`
 
 ## Usage ##
 
-TODO
+There's currently only one command that can be run:
+```bash
+$ node issues.js
+```
+which will print a list of the repositories in the jQuery organization
+and some simple statistics, like the total number of issues, how many
+are still open and how many were closed. This still doesn't meet the
+minimal requirements of https://github.com/jquery/content/issues/4#issue-54246432,
+but it's a step in that direction.
 
 ## Author ##
 
