@@ -45,4 +45,39 @@ var allIssues = function (repo, page, issues, callback) {
   });
 };
 
-allIssues("jquery/jquery", 0, [], countIssues);
+var parseRepos = function (org, repos) {
+  _.each(repos, function (repo) {
+    if (_.has(repo, "name")) {
+      allIssues(org + "/" + repo.name, 0, [], countIssues);
+    }
+  });
+};
+
+var allRepos = function (org, page, repos, callback) {
+  var ghorg = client.org(org);
+
+  ghorg.repos({
+    page: page,
+    per_page: 100,
+  }, function (err, data, headers) {
+    repos = repos.concat(data);
+
+    if (_.has(headers, "link")) {
+      var parsedLink = parse(headers.link);
+
+      if (_.has(parsedLink, "next")) {
+        if (_.has(parsedLink.next, "page")) {
+          allRepos(org, parsedLink.next.page, repos, callback);
+        } else {
+          callback(org, repos);
+        }
+      } else{
+        callback(org, repos);
+      }
+    } else {
+      callback(org, repos);
+    }
+  });
+};
+
+allRepos("jquery", 0, [], parseRepos);
