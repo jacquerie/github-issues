@@ -4,6 +4,6 @@
     "url" : "http://github.com/jacquerie/what-can-i-do-for.git"
   },
   "dependencies": {
-    "github": "^0.2.3"
+    "octonode": "^0.6.15"
   }
 }
