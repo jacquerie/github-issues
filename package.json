@@ -1,11 +1,14 @@
 {
-  "repository" : {
-    "type" : "git",
-    "url" : "http://github.com/jacquerie/what-can-i-do-for.git"
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jacquerie/what-can-i-do-for.git"
   },
   "dependencies": {
     "octonode": "^0.6.15",
     "parse-link-header": "^0.2.0",
-    "underscore": "1.8.2"
+    "underscore": "^1.8.2"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5"
   }
 }
