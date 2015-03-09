@@ -1,22 +1,48 @@
 var github = require( "octonode" ),
     parse = require( "parse-link-header" ),
-    util = require( "util" ),
     _ = require( "underscore" ),
 
     client = github.client( process.env.TOKEN ),
 
     countIssues = function( repo, issues ) {
       var open,
+          openPulls,
+          openIssues,
           closed,
-          partition = _.partition( issues, function( issue ) {
+          closedPulls,
+          closedIssues,
+          result,
+          partition;
+
+      partition = _.partition( issues, function( issue ) {
         return _.has( issue, "state" ) && ( issue.state === "open" );
       } );
 
       open = _.first( partition ),
       closed = _.last( partition );
 
-      console.log( util.format( "REPO: %s\nTOTAL: %d\nOPEN: %d\nCLOSED: %d\n",
-                     repo, issues.length, open.length, closed.length ) );
+      open = _.partition( open, function( issue ) {
+        return _.has( issue, "pull_request" );
+      } );
+      closed = _.partition( closed, function( issue ) {
+        return _.has( issue, "pull_request" );
+      } );
+
+      openPulls = _.first( open );
+      openIssues = _.last( open );
+      closedPulls = _.first( closed );
+      closedIssues = _.last( closed );
+
+      result = {
+        repo: repo,
+        total: issues.length,
+        openPulls: openPulls.length,
+        closedPulls: closedPulls.length,
+        openIssues: openIssues.length,
+        closedIssues: closedIssues.length
+      };
+
+      console.log( result );
     },
 
     allIssues = function( repo, page, issues, callback ) {
