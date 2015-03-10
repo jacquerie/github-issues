@@ -7,6 +7,10 @@ var github = require( "octonode" ),
 
     now = moment(),
 
+    add = function( acc, el ) {
+      return acc + el;
+    },
+
     isOpen = function( issue ) {
       return _.has( issue, "state" ) && ( issue.state === "open" );
     },
@@ -25,21 +29,27 @@ var github = require( "octonode" ),
           max;
 
       seconds = _.map( issues, function( issue ) {
-        var result;
+        var result = 0;
 
         if ( now ) {
-          result = now.diff( moment( issue.created_at ) );
+          if ( _.has( issue, "created_at" ) ) {
+            //jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+            result = now.diff( moment( issue.created_at ) );
+            //jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+          }
         } else {
-          result = moment( issue.closed_at ).diff( moment( issue.created_at ) );
+          if ( _.has( issue, "closed_at" ) && _.has( issue, "created_at" ) ) {
+            //jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+            result = moment( issue.closed_at ).diff( moment( issue.created_at ) );
+            //jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+          }
         }
 
         return result / 1000;
       } );
 
       min = _.min( seconds );
-      avg = _.reduce( seconds, function( acc, second ) {
-        return acc + second;
-      }, 0 ) / seconds.length;
+      avg = _.reduce( seconds, add, 0 ) / seconds.length;
       max = _.max( seconds );
 
       return {
