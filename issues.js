@@ -12,6 +12,9 @@ var github = require( "octonode" ),
       return _.has( issue, "pull_request" );
     },
 
+    printJSON = _.compose( console.log,
+      _.partial( JSON.stringify, _, null, 2 ) ),
+
     countIssues = function( repo, issues ) {
       var open,
           openPulls,
@@ -43,7 +46,7 @@ var github = require( "octonode" ),
         closedIssues: closedIssues.length
       };
 
-      console.log( result );
+      printJSON( result );
     },
 
     allIssues = function( repo, page, issues, callback ) {
