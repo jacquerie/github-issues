@@ -1,8 +1,11 @@
 var github = require( "octonode" ),
+    moment = require( "moment" ),
     parse = require( "parse-link-header" ),
     _ = require( "underscore" ),
 
     client = github.client( process.env.TOKEN ),
+
+    now = moment(),
 
     isOpen = function( issue ) {
       return _.has( issue, "state" ) && ( issue.state === "open" );
@@ -15,7 +18,38 @@ var github = require( "octonode" ),
     printJSON = _.compose( console.log,
       _.partial( JSON.stringify, _, null, 2 ) ),
 
-    countIssues = function( repo, issues ) {
+    computeAge = function( now, issues ) {
+      var seconds,
+          min,
+          avg,
+          max;
+
+      seconds = _.map( issues, function( issue ) {
+        var result;
+
+        if ( now ) {
+          result = now.diff( moment( issue.created_at ) );
+        } else {
+          result = moment( issue.closed_at ).diff( moment( issue.created_at ) );
+        }
+
+        return result / 1000;
+      } );
+
+      min = _.min( seconds );
+      avg = _.reduce( seconds, function( acc, second ) {
+        return acc + second;
+      }, 0 ) / seconds.length;
+      max = _.max( seconds );
+
+      return {
+        min: Math.floor( min ),
+        avg: Math.floor( avg ),
+        max: Math.floor( max )
+      };
+    },
+
+    printIssues = function( repo, issues ) {
       var open,
           openPulls,
           openIssues,
@@ -30,10 +64,10 @@ var github = require( "octonode" ),
       closed = _.last( partition );
 
       open = _.partition( open, isPullRequest );
-      closed = _.partition( closed, isPullRequest );
-
       openPulls = _.first( open );
       openIssues = _.last( open );
+
+      closed = _.partition( closed, isPullRequest );
       closedPulls = _.first( closed );
       closedIssues = _.last( closed );
 
@@ -41,9 +75,13 @@ var github = require( "octonode" ),
         repo: repo,
         total: issues.length,
         openPulls: openPulls.length,
-        closedPulls: closedPulls.length,
+        openPullsAge: computeAge( now, openPulls ),
         openIssues: openIssues.length,
-        closedIssues: closedIssues.length
+        openIssuesAge: computeAge( now, openIssues ),
+        closedPulls: closedPulls.length,
+        closedPullsAge: computeAge( null, closedPulls ),
+        closedIssues: closedIssues.length,
+        closedIssuesAge: computeAge( null, closedIssues )
       };
 
       printJSON( result );
@@ -82,7 +120,7 @@ var github = require( "octonode" ),
     parseRepos = function( org, repos ) {
       _.each( repos, function( repo ) {
         if ( _.has( repo, "name" ) ) {
-          allIssues( org + "/" + repo.name, 0, [], countIssues );
+          allIssues( org + "/" + repo.name, 0, [], printIssues );
         }
       } );
     },

@@ -4,6 +4,7 @@
     "url": "http://github.com/jacquerie/what-can-i-do-for.git"
   },
   "dependencies": {
+    "moment": "^2.9.0",
     "octonode": "^0.6.15",
     "parse-link-header": "^0.2.0",
     "underscore": "^1.8.2"
