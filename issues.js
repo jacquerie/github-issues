@@ -4,6 +4,14 @@ var github = require( "octonode" ),
 
     client = github.client( process.env.TOKEN ),
 
+    isOpen = function( issue ) {
+      return _.has( issue, "state" ) && ( issue.state === "open" );
+    },
+
+    isPullRequest = function( issue ) {
+      return _.has( issue, "pull_request" );
+    },
+
     countIssues = function( repo, issues ) {
       var open,
           openPulls,
@@ -14,19 +22,12 @@ var github = require( "octonode" ),
           result,
           partition;
 
-      partition = _.partition( issues, function( issue ) {
-        return _.has( issue, "state" ) && ( issue.state === "open" );
-      } );
-
-      open = _.first( partition ),
+      partition = _.partition( issues, isOpen );
+      open = _.first( partition );
       closed = _.last( partition );
 
-      open = _.partition( open, function( issue ) {
-        return _.has( issue, "pull_request" );
-      } );
-      closed = _.partition( closed, function( issue ) {
-        return _.has( issue, "pull_request" );
-      } );
+      open = _.partition( open, isPullRequest );
+      closed = _.partition( closed, isPullRequest );
 
       openPulls = _.first( open );
       openIssues = _.last( open );
