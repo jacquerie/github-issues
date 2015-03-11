@@ -1,23 +1,79 @@
-# what-can-i-do-for #
+# github-issues #
 
-WIP: This will eventually be included in my GSoC proposal for https://github.com/jquery/gsoc/wiki/GSoC-2015-Ideas-List#jquery-content---tracking-of-jquery-issues-on-github.
+WIP: This will eventually be included in my GSoC proposal for
+https://github.com/jquery/gsoc/wiki/GSoC-2015-Ideas-List#jquery-content---tracking-of-jquery-issues-on-github.
 
 ## Install ##
 
-1. Clone this repository: `git clone https://github.com/jacquerie/what-can-i-do-for.git`
-2. Install the dependencies: `cd what-can-i-do-for && npm install`
+1. Clone this repository: `git clone https://github.com/jacquerie/github-issues.git`
+2. Install the dependencies: `cd github-issues && npm install`
 
 ## Usage ##
 
-There's currently only one command that can be run:
+The following commands are available:
+
 ```bash
-$ node issues.js
+$ node issues.js repoName
 ```
-which will print a list of the repositories in the jQuery organization
-and some simple statistics, like the total number of issues, how many
-are still open and how many were closed. This still doesn't meet the
-minimal requirements of https://github.com/jquery/content/issues/4#issue-54246432,
-but it's a step in that direction.
+where `repoName` is the name of a GitHub repository (example: `jquery/jquery`),
+which will output a JSON representation of the minimum, average and maximum age
+in seconds of its issues. For example:
+```JSON
+{
+  "repo": "jquery/jquery",
+  "total": 2124,
+  "openPulls": 11,
+  "openPullsAge": {
+    "min": 129755,
+    "avg": 4160999,
+    "max": 12516655
+  },
+  "openIssues": 99,
+  "openIssuesAge": {
+    "min": 9629,
+    "avg": 7970797,
+    "max": 13243015
+  },
+  "closedPulls": 1773,
+  "closedPullsAge": {
+    "min": 6,
+    "avg": 1408170,
+    "max": 52149399
+  },
+  "closedIssues": 241,
+  "closedIssuesAge": {
+    "min": 6,
+    "avg": 1277130,
+    "max": 12439871
+  }
+}
+```
+
+There's also:
+
+```bash
+$ node issues.js orgName
+```
+where `orgName` is the name of a GitHub organization (example: `jquery`), which
+will output one such record for every repository under the organization.
+
+Finally:
+
+```bash
+$ grunt
+```
+which will lint and style check the code using `jsonlint`, `jshint` and `jscs`
+so that it follows [jQuery's style
+guide](http://contribute.jquery.org/style-guide/js/).
+
+## Token ##
+
+It's strongly suggested to create a Personal Access Token from
+https://github.com/settings/applications. You can then save it into a file
+called `TOKEN` and use it to populate the `TOKEN` environment variable with
+```bash
+$ export TOKEN=$(<TOKEN)
+```
 
 ## Author ##
 
