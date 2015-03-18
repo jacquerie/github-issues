@@ -85,15 +85,26 @@ var github = require( "octonode" ),
 
       result = {
         repo: repo,
-        total: issues.length,
-        openPulls: openPulls.length,
-        openPullsAge: computeAge( now, openPulls ),
-        openIssues: openIssues.length,
-        openIssuesAge: computeAge( now, openIssues ),
-        closedPulls: closedPulls.length,
-        closedPullsAge: computeAge( null, closedPulls ),
-        closedIssues: closedIssues.length,
-        closedIssuesAge: computeAge( null, closedIssues )
+        issues: {
+          open: {
+            count: openIssues.length,
+            age: computeAge( now, openIssues )
+          },
+          closed: {
+            count: closedIssues.length,
+            age: computeAge( null, closedIssues )
+          }
+        },
+        pulls: {
+          open: {
+            count: openPulls.length,
+            age: computeAge( now, openPulls )
+          },
+          closed: {
+            count: closedPulls.length,
+            age: computeAge( null, closedPulls )
+          }
+        }
       };
 
       printJSON( result );

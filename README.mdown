@@ -21,30 +21,41 @@ in seconds of its issues. For example:
 ```JSON
 {
   "repo": "jquery/jquery",
-  "total": 2124,
-  "openPulls": 11,
-  "openPullsAge": {
-    "min": 129755,
-    "avg": 4160999,
-    "max": 12516655
+  "issues": {
+    "open": {
+      "count": 101,
+      "age": {
+        "min": 179878,
+        "avg": 8473663,
+        "max": 13944390
+      }
+    },
+    "closed": {
+      "count": 251,
+      "age": {
+        "min": 6,
+        "avg": 1239817,
+        "max": 12439871
+      }
+    }
   },
-  "openIssues": 99,
-  "openIssuesAge": {
-    "min": 9629,
-    "avg": 7970797,
-    "max": 13243015
-  },
-  "closedPulls": 1773,
-  "closedPullsAge": {
-    "min": 6,
-    "avg": 1408170,
-    "max": 52149399
-  },
-  "closedIssues": 241,
-  "closedIssuesAge": {
-    "min": 6,
-    "avg": 1277130,
-    "max": 12439871
+  "pulls": {
+    "open": {
+      "count": 11,
+      "age": {
+        "min": 179756,
+        "avg": 4803158,
+        "max": 13218030
+      }
+    },
+    "closed": {
+      "count": 1775,
+      "age": {
+        "min": 6,
+        "avg": 1406956,
+        "max": 52149399
+      }
+    }
   }
 }
 ```
