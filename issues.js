@@ -21,6 +21,30 @@ var github = require( "octonode" ),
       return _.has( issue, "pull_request" );
     },
 
+    wasCreated = function( issue ) {
+      return _.has( issue, "created_at" );
+    },
+
+    wasClosed = function( issue ) {
+      return _.has( issue, "closed_at" ) && _.has( issue, "created_at" );
+    },
+
+    hasName = function( repo ) {
+      return _.has( repo, "name" );
+    },
+
+    hasLink = function( headers ) {
+      return _.has( headers, "link" );
+    },
+
+    hasNext = function( link ) {
+      return _.has( link, "next" );
+    },
+
+    hasPage = function( next ) {
+      return _.has( next, "page" );
+    },
+
     printJSON = _.compose( console.log,
       _.partial( JSON.stringify, _, null, 2 ) ),
 
@@ -34,13 +58,13 @@ var github = require( "octonode" ),
         var result = 0;
 
         if ( now ) {
-          if ( _.has( issue, "created_at" ) ) {
+          if ( wasCreated( issue ) ) {
             //jscs:disable requireCamelCaseOrUpperCaseIdentifiers
             result = now.diff( moment( issue.created_at ) );
             //jscs:enable requireCamelCaseOrUpperCaseIdentifiers
           }
         } else {
-          if ( _.has( issue, "closed_at" ) && _.has( issue, "created_at" ) ) {
+          if ( wasClosed( issue ) ) {
             //jscs:disable requireCamelCaseOrUpperCaseIdentifiers
             result = moment( issue.closed_at ).diff( moment( issue.created_at ) );
             //jscs:enable requireCamelCaseOrUpperCaseIdentifiers
@@ -122,11 +146,11 @@ var github = require( "octonode" ),
       }, function( err, data, headers ) {
         issues = issues.concat( data );
 
-        if ( _.has( headers, "link" ) ) {
+        if ( hasLink( headers ) ) {
           var parsedLink = parse( headers.link );
 
-          if ( _.has( parsedLink, "next" ) ) {
-            if ( _.has( parsedLink.next, "page" ) ) {
+          if ( hasNext( parsedLink ) ) {
+            if ( hasPage( parsedLink.next ) ) {
               allIssues( repo, parsedLink.next.page, issues, callback );
             } else {
               callback( repo, issues );
@@ -142,7 +166,7 @@ var github = require( "octonode" ),
 
     parseRepos = function( org, repos ) {
       _.each( repos, function( repo ) {
-        if ( _.has( repo, "name" ) ) {
+        if ( hasName( repo ) ) {
           allIssues( org + "/" + repo.name, 0, [], parseIssues );
         }
       } );
@@ -159,11 +183,11 @@ var github = require( "octonode" ),
       }, function( err, data, headers ) {
         repos = repos.concat( data );
 
-        if ( _.has( headers, "link" ) ) {
+        if ( hasLink( headers ) ) {
           var parsedLink = parse( headers.link );
 
-          if ( _.has( parsedLink, "next" ) ) {
-            if ( _.has( parsedLink.next, "page" ) ) {
+          if ( hasNext( parsedLink ) ) {
+            if ( hasPage( parsedLink.next ) ) {
               allRepos( org, parsedLink.next.page, repos, callback );
             } else {
               callback( org, repos );
