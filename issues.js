@@ -85,7 +85,7 @@ var github = require( "octonode" ),
       };
     },
 
-    parseIssues = function( repo, issues ) {
+    parseIssues = function( repo, issues, callback ) {
       var open,
           openPulls,
           openIssues,
@@ -131,7 +131,7 @@ var github = require( "octonode" ),
         }
       };
 
-      printJSON( result );
+      callback( result );
     },
 
     allIssues = function( repo, page, issues, callback ) {
@@ -153,13 +153,13 @@ var github = require( "octonode" ),
             if ( hasPage( parsedLink.next ) ) {
               allIssues( repo, parsedLink.next.page, issues, callback );
             } else {
-              callback( repo, issues );
+              callback( repo, issues, printJSON );
             }
           } else {
-            callback( repo, issues );
+            callback( repo, issues, printJSON );
           }
         } else {
-          callback( repo, issues );
+          callback( repo, issues, printJSON );
         }
       } );
     },
