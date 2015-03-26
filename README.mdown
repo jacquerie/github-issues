@@ -1,7 +1,7 @@
 # github-issues #
 
-WIP: This will eventually be included in my GSoC proposal for
-https://github.com/jquery/gsoc/wiki/GSoC-2015-Ideas-List#jquery-content---tracking-of-jquery-issues-on-github.
+WIP: A simple utility that outputs statistics about the GitHub issues of an
+organization or a single repository.
 
 ## Install ##
 
