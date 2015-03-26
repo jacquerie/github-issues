@@ -164,10 +164,10 @@ var github = require( "octonode" ),
       } );
     },
 
-    parseRepos = function( org, repos ) {
+    parseRepos = function( org, repos, callback ) {
       _.each( repos, function( repo ) {
         if ( hasName( repo ) ) {
-          allIssues( org + "/" + repo.name, 0, [], parseIssues );
+          callback( org + "/" + repo.name, 0, [], parseIssues );
         }
       } );
     },
@@ -190,13 +190,13 @@ var github = require( "octonode" ),
             if ( hasPage( parsedLink.next ) ) {
               allRepos( org, parsedLink.next.page, repos, callback );
             } else {
-              callback( org, repos );
+              callback( org, repos, allIssues );
             }
           } else {
-            callback( org, repos );
+            callback( org, repos, allIssues );
           }
         } else {
-          callback( org, repos );
+          callback( org, repos, allIssues );
         }
       } );
     };
