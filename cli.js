@@ -8,8 +8,8 @@ if ( process.argv.length !== 3 ) {
   argument = process.argv[2];
 
   if ( argument.indexOf( "/" ) === -1 ) {
-    issues.allRepos( argument, 0, [], issues.parseRepos );
+    issues.scanOrg( argument );
   } else {
-    issues.allIssues( argument, 0, [], issues.parseIssues );
+    issues.scanRepo( argument );
   }
 }

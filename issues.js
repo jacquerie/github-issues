@@ -200,8 +200,10 @@ var github = require( "octonode" ),
     };
 
 module.exports = {
-  allIssues: allIssues,
-  parseIssues: parseIssues,
-  allRepos: allRepos,
-  parseRepos: parseRepos
+  scanOrg: function( org ) {
+    allRepos( org, 0, [], parseRepos );
+  },
+  scanRepo: function( repo ) {
+    allIssues( repo, 0, [], parseIssues );
+  }
 };
