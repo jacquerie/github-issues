@@ -43,9 +43,6 @@ var github = require( "octonode" ),
       return _.has( next, "page" );
     },
 
-    printJSON = _.compose( console.log,
-      _.partial( JSON.stringify, _, null, 2 ) ),
-
     computeAge = function( now, issues ) {
       var seconds,
           min,
@@ -83,7 +80,7 @@ var github = require( "octonode" ),
       };
     },
 
-    parseIssues = function( repo, issues, callback ) {
+    parseIssues = function( repo, issues, behavior ) {
       var open,
           openPulls,
           openIssues,
@@ -129,10 +126,10 @@ var github = require( "octonode" ),
         }
       };
 
-      callback( result );
+      behavior( result );
     },
 
-    allIssues = function( repo, page, issues, callback ) {
+    allIssues = function( repo, page, issues, continuation, behavior ) {
       var ghrepo = client.repo( repo );
 
       ghrepo.issues( {
@@ -149,28 +146,28 @@ var github = require( "octonode" ),
 
           if ( hasNext( parsedLink ) ) {
             if ( hasPage( parsedLink.next ) ) {
-              allIssues( repo, parsedLink.next.page, issues, callback );
+              allIssues( repo, parsedLink.next.page, issues, continuation, behavior );
             } else {
-              callback( repo, issues, printJSON );
+              continuation( repo, issues, behavior );
             }
           } else {
-            callback( repo, issues, printJSON );
+            continuation( repo, issues, behavior );
           }
         } else {
-          callback( repo, issues, printJSON );
+          continuation( repo, issues, behavior );
         }
       } );
     },
 
-    parseRepos = function( org, repos, callback ) {
+    parseRepos = function( org, repos, continuation, behavior ) {
       _.each( repos, function( repo ) {
         if ( hasName( repo ) ) {
-          callback( org + "/" + repo.name, 0, [], parseIssues );
+          continuation( org + "/" + repo.name, 0, [], parseIssues, behavior );
         }
       } );
     },
 
-    allRepos = function( org, page, repos, callback ) {
+    allRepos = function( org, page, repos, continuation, behavior ) {
       var ghorg = client.org( org );
 
       ghorg.repos( {
@@ -186,24 +183,24 @@ var github = require( "octonode" ),
 
           if ( hasNext( parsedLink ) ) {
             if ( hasPage( parsedLink.next ) ) {
-              allRepos( org, parsedLink.next.page, repos, callback );
+              allRepos( org, parsedLink.next.page, repos, continuation, behavior );
             } else {
-              callback( org, repos, allIssues );
+              continuation( org, repos, allIssues, behavior );
             }
           } else {
-            callback( org, repos, allIssues );
+            continuation( org, repos, allIssues, behavior );
           }
         } else {
-          callback( org, repos, allIssues );
+          continuation( org, repos, allIssues, behavior );
         }
       } );
     };
 
 module.exports = {
-  scanOrg: function( org ) {
-    allRepos( org, 0, [], parseRepos );
+  scanOrg: function( org, behavior ) {
+    allRepos( org, 0, [], parseRepos, behavior );
   },
-  scanRepo: function( repo ) {
-    allIssues( repo, 0, [], parseIssues );
+  scanRepo: function( repo, behavior ) {
+    allIssues( repo, 0, [], parseIssues, behavior );
   }
 };
