@@ -3,8 +3,6 @@ var github = require( "octonode" ),
     parse = require( "parse-link-header" ),
     _ = require( "underscore" ),
 
-    argument,
-
     client = github.client( process.env.TOKEN ),
 
     now = moment(),
@@ -201,14 +199,9 @@ var github = require( "octonode" ),
       } );
     };
 
-if ( process.argv.length !== 3 ) {
-  console.error( "Usage: node issues.js (orgName|repoName)" );
-} else {
-  argument = process.argv[2];
-
-  if ( argument.indexOf( "/" ) === -1 ) {
-    allRepos( argument, 0, [], parseRepos );
-  } else {
-    allIssues( argument, 0, [], parseIssues );
-  }
-}
+module.exports = {
+  allIssues: allIssues,
+  parseIssues: parseIssues,
+  allRepos: allRepos,
+  parseRepos: parseRepos
+};

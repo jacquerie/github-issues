@@ -13,7 +13,7 @@ organization or a single repository.
 The following commands are available:
 
 ```bash
-$ node issues.js repoName
+$ node cli.js repoName
 ```
 where `repoName` is the name of a GitHub repository (example: `jquery/jquery`),
 which will output a JSON representation of the minimum, average and maximum age
@@ -63,7 +63,7 @@ in seconds of its issues. For example:
 There's also:
 
 ```bash
-$ node issues.js orgName
+$ node cli.js orgName
 ```
 where `orgName` is the name of a GitHub organization (example: `jquery`), which
 will output one such record for every repository under the organization.
