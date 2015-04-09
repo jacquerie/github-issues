@@ -4,10 +4,10 @@
     "url": "http://github.com/jacquerie/github-issues.git"
   },
   "dependencies": {
+    "lodash": "^3.6.0",
     "moment": "^2.9.0",
     "octonode": "^0.6.15",
-    "parse-link-header": "^0.2.0",
-    "underscore": "^1.8.2"
+    "parse-link-header": "^0.2.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

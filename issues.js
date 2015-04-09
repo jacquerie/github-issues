@@ -1,15 +1,11 @@
 var github = require( "octonode" ),
     moment = require( "moment" ),
     parse = require( "parse-link-header" ),
-    _ = require( "underscore" ),
+    _ = require( "lodash" ),
 
     client = github.client( process.env.TOKEN ),
 
     now = moment(),
-
-    add = function( acc, el ) {
-      return acc + el;
-    },
 
     isOpen = function( issue ) {
       return _.has( issue, "state" ) && ( issue.state === "open" );
@@ -70,7 +66,7 @@ var github = require( "octonode" ),
       } );
 
       min = _.min( seconds );
-      avg = _.reduce( seconds, add, 0 ) / seconds.length;
+      avg = _.reduce( seconds, _.add, 0 ) / seconds.length;
       max = _.max( seconds );
 
       return {

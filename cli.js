@@ -1,5 +1,5 @@
 var issues = require( "./issues.js" ),
-    _ = require( "underscore" ),
+    _ = require( "lodash" ),
 
     argument,
 
