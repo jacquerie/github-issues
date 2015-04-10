@@ -2,12 +2,12 @@ module.exports = function( grunt ) {
   grunt.initConfig( {
     jscs: {
       all: {
-        src: [ "cli.js", "Gruntfile.js", "issues.js" ]
+        src: [ "cli.js", "db.js", "Gruntfile.js", "issues.js" ]
       }
     },
     jshint: {
       all: {
-        src: [ "cli.js", "Gruntfile.js", "issues.js" ],
+        src: [ "cli.js", "db.js", "Gruntfile.js", "issues.js" ],
         options: {
           jshintrc: true
         }
