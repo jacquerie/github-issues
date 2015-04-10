@@ -20,39 +20,39 @@ which will output a JSON representation of the minimum, average and maximum age
 in seconds of its issues. For example:
 ```JSON
 {
-  "repo": "jquery/jquery",
+  "name": "jquery/jquery",
   "issues": {
     "open": {
       "count": 101,
       "age": {
-        "min": 179878,
-        "avg": 8473663,
-        "max": 13944390
+        "min": 159645,
+        "avg": 9957576,
+        "max": 15914514
       }
     },
     "closed": {
-      "count": 251,
+      "count": 286,
       "age": {
         "min": 6,
-        "avg": 1239817,
-        "max": 12439871
+        "avg": 1272570,
+        "max": 13886977
       }
     }
   },
   "pulls": {
     "open": {
-      "count": 11,
+      "count": 12,
       "age": {
-        "min": 179756,
-        "avg": 4803158,
-        "max": 13218030
+        "min": 500368,
+        "avg": 4812883,
+        "max": 15188154
       }
     },
     "closed": {
-      "count": 1775,
+      "count": 1786,
       "age": {
         "min": 6,
-        "avg": 1406956,
+        "avg": 1407592,
         "max": 52149399
       }
     }

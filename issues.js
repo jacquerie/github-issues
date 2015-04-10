@@ -99,7 +99,7 @@ var github = require( "octonode" ),
       closedIssues = _.last( closed );
 
       result = {
-        repo: repo,
+        name: repo,
         issues: {
           open: {
             count: openIssues.length,
