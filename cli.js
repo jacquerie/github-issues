@@ -12,8 +12,8 @@ if ( process.argv.length !== 3 ) {
   argument = process.argv[2];
 
   if ( argument.indexOf( "/" ) === -1 ) {
-    issues.scanOrg( argument, printJSON );
+    issues.walkOrg( argument, printJSON );
   } else {
-    issues.scanRepo( argument, printJSON );
+    issues.walkRepo( argument, printJSON );
   }
 }

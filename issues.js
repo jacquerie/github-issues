@@ -193,10 +193,10 @@ var github = require( "octonode" ),
     };
 
 module.exports = {
-  scanOrg: function( org, behavior ) {
+  walkOrg: function( org, behavior ) {
     allRepos( org, 0, [], parseRepos, behavior );
   },
-  scanRepo: function( repo, behavior ) {
+  walkRepo: function( repo, behavior ) {
     allIssues( repo, 0, [], parseIssues, behavior );
   }
 };
