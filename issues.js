@@ -50,15 +50,15 @@ var github = require( "octonode" ),
 
         if ( now ) {
           if ( wasCreated( issue ) ) {
-            //jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+            /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
             result = now.diff( moment( issue.created_at ) );
-            //jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+            /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
           }
         } else {
           if ( wasClosed( issue ) ) {
-            //jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+            /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
             result = moment( issue.closed_at ).diff( moment( issue.created_at ) );
-            //jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+            /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
           }
         }
 
@@ -130,9 +130,9 @@ var github = require( "octonode" ),
 
       ghrepo.issues( {
         page: page,
-        //jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+        /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
         per_page: 100,
-        //jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+        /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
         state: "all"
       }, function( err, data, headers ) {
         issues = issues.concat( data );
@@ -168,9 +168,9 @@ var github = require( "octonode" ),
 
       ghorg.repos( {
         page: page,
-        //jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+        /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
         per_page: 100
-        //jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+        /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
       }, function( err, data, headers ) {
         repos = repos.concat( data );
 
